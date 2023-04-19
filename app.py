@@ -4,7 +4,6 @@ import pickle
 import clean as cln
 from flask_cors import CORS
 import json
-from flask_sslify import SSLify
 
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 cv = CountVectorizer(stop_words='english')
@@ -12,7 +11,6 @@ tv = TfidfVectorizer(stop_words='english')
 
 
 app=Flask(__name__,template_folder='templates')
-sslify = SSLify(app)
 CORS(app)
 model = pickle.load(open('model.pkl', 'rb'))
 count_vec =pickle.load(open('count_vec.pkl', 'rb'))
@@ -59,9 +57,6 @@ def predict():
         return json.dumps(prediction_text)
         #return prediction_text
 
-
-if __name__ == '__main__':
-    app.run(ssl_context=('/etc/letsencrypt/live/movieflaskspoiler.eastus.cloudapp.azure.com/fullchain.pem', '/etc/letsencrypt/live/movieflaskspoiler.eastus.cloudapp.azure.com/privkey.pem'))
-
-    
+if __name__ == "__main__":
+    app.run(debug=True)
     
